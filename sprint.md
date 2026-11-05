@@ -20,7 +20,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - Desain Material 3 Expressive Theme: color palette (vibrant fasting & eating tones), expressive shapes (rounded pills, cards), dan dynamic motion tokens.
 - Struktur navigasi dasar (Home, Kalender, Profil) dengan dukungan Predictive Back.
 
-### [ ] Sprint 2: Data Models & Local Storage Engine
+### [✅] Sprint 2: Data Models & Local Storage Engine
 - Entitas data:
   - `FastingSchedule`: waktu mulai & selesai puasa (jam & menit).
   - `FastingPhase`: status `FASTING` (puasa) vs `EATING` (makan).
@@ -30,7 +30,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
   - `WhatIFRepository` berbasis JSON terenkapsulasi di storage lokal app (`filesDir`).
   - reactive StateFlow untuk perubahan data otomatis di UI.
   - Kalkulator fase puasa & hitung mundur waktu ke fase berikutnya (mendukung rotasi lintas tengah malam).
-- Unit test untuk kalkulasi durasi & transisi fase puasa.
+- Unit test untuk kalkulasi durasi & transisi fase puasa (`FastingCalculatorTest` passed).
 
 ### [ ] Sprint 3: Home Screen & Expressive Fasting Timer
 - Circular Progress Ring dengan visual expressive (animasi gradient, glowing ring).
