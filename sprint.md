@@ -11,7 +11,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ---
 
-## 🚀 Rencana Sprint (Total: 10 Sprint)
+## 🚀 Rencana Sprint (Total: 11 Sprint)
 
 ### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
@@ -113,3 +113,11 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - **Timer Countdown Typography**: Penyesuaian `CircularFastingTimer` dengan `GoogleSansFlexFontFamily` dan weight ExtraBold (850) berukuran 38sp agar pembacaan sisa waktu puasa/makan kontras, tebal, dan sangat jelas terbaca.
 - **Cleanup**: Menghapus resource Playfair Display yang tidak lagi digunakan untuk menjaga ukuran APK tetap ramping.
 - Verifikasi kompilasi dan uji coba unit test (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).
+
+### [✅] Sprint 11: Tab Navigation Slide Animation (EaseInOut 500ms)
+- **Directional Slide Motion**: Menerapkan animasi transisi geser horizontal (`slideIntoContainer` & `slideOutOfContainer`) saat berpindah tab antar Beranda, Kalender, dan Profil pada `AnimatedContent`.
+- **Direction Awareness**: Arah geser ditentukan secara natural berdasarkan ordinal tab:
+  - Navigasi ke kanan (misal Beranda -> Kalender atau Kalender -> Profil): halaman baru bergeser masuk dari kanan ke kiri (`SlideDirection.Left`).
+  - Navigasi ke kiri (misal Profil -> Kalender atau kembali ke Beranda via back gesture): halaman baru bergeser masuk dari kiri ke kanan (`SlideDirection.Right`).
+- **Timing & Easing Curve**: Menggunakan durasi persis **500ms** dengan kurva **`EaseInOut`** (`CubicBezierEasing(0.42f, 0.0f, 0.58f, 1.0f)`) untuk pergerakan transisi yang mulus, responsif, dan elegan.
+- Verifikasi kompilasi dan kelulusan build (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` sukses).

@@ -6,8 +6,9 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -104,7 +105,26 @@ fun WhatIFApp(
     ) { innerPadding ->
         AnimatedContent(
             targetState = currentDestination,
-            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            transitionSpec = {
+                val direction = if (targetState.ordinal > initialState.ordinal) {
+                    AnimatedContentTransitionScope.SlideDirection.Left
+                } else {
+                    AnimatedContentTransitionScope.SlideDirection.Right
+                }
+                slideIntoContainer(
+                    towards = direction,
+                    animationSpec = tween(
+                        durationMillis = 500,
+                        easing = EaseInOut
+                    )
+                ) togetherWith slideOutOfContainer(
+                    towards = direction,
+                    animationSpec = tween(
+                        durationMillis = 500,
+                        easing = EaseInOut
+                    )
+                )
+            },
             modifier = Modifier.padding(innerPadding),
             label = "ScreenTransition"
         ) { destination ->
