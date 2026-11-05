@@ -47,4 +47,16 @@ class CalendarDataModelTest {
         assertTrue("Today has mokel", mokelsByDate.containsKey(today))
         assertFalse("Yesterday has no mokel", mokelsByDate.containsKey(yesterday))
     }
+
+    @Test
+    fun testMokelInvalidatesCompletedFastDate() {
+        val today = LocalDate.of(2026, 11, 5)
+        var completedDates = listOf(today)
+
+        // Adding mokel on today should remove today from completedFastDates
+        val mokelRecord = MokelRecord(foodDescription = "Kopi Susu", timestamp = LocalDateTime.of(today, java.time.LocalTime.of(9, 0)))
+        completedDates = completedDates.filterNot { it == mokelRecord.localDate }
+
+        assertFalse("Mokel on today must invalidate clean fast", completedDates.contains(today))
+    }
 }

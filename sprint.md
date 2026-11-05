@@ -11,7 +11,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ---
 
-## 🚀 Rencana Sprint (Total: 13 Sprint)
+## 🚀 Rencana Sprint (Total: 14 Sprint)
 
 ### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
@@ -147,4 +147,16 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
   - Tanggal dengan mokel tetap berstatus **Ada Mokel 🍩** (warna coral dengan badge jumlah mokel).
   - Pengguna dapat menandai tanggal sebagai **Berhasil Puasa IF 🌟** atau membatalkannya langsung melalui `DayDetailBottomSheet`.
 - Unit test baru `CalendarDataModelTest` untuk memvalidasi inisialisasi state bersih, pengelompokan tanggal mokel, dan mekanisme toggle puasa berhasil.
+- Verifikasi kompilasi dan kelulusan unit test 100% sukses.
+
+### [✅] Sprint 14: Auto-Complete Fasting Recording & Background Reliability (OneUI / HyperOS)
+- **Automatic Fasting Completion Trigger**:
+  - Saat jadwal puasa berakhir dan jendela makan dibuka (`ACTION_EAT_START`), `FastingAlarmReceiver` secara otomatis memeriksa apakah ada catatan mokel hari ini.
+  - Jika tidak ada mokel (*clean fast*), tanggal hari ini otomatis didaftarkan ke `completedFastDates` di database lokal dan notifikasi perayaan kesuksesan puasa langsung dikirimkan.
+  - Saat aplikasi dibuka (`WhatIFViewModel.checkAndAutoCompleteFasting`), sistem memvalidasi apakah fase aktif adalah `EATING` tanpa catatan mokel dan otomatis mencatat status berhasil tanpa perlu input manual.
+  - Jika pengguna mencatat mokel kemudian hari, `addMokel` secara otomatis menganulir status berhasil hari itu dan mengalihkannya menjadi *Ada Mokel*.
+- **Background Execution Reliability (OneUI / HyperOS)**:
+  - Penambahan izin `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` di `AndroidManifest.xml`.
+  - Penambahan tombol integrasi *"Izin Latar Belakang (OneUI / HyperOS)"* di menu Profil untuk memandu dan membuka pengaturan baterai agar aplikasi tidak dihentikan paksa oleh manajemen baterai agresif OEM (Samsung Sleeping Apps / Xiaomi MIUI Autostart & Battery Saver).
+- Penambahan unit test `testMokelInvalidatesCompletedFastDate` di `CalendarDataModelTest`.
 - Verifikasi kompilasi dan kelulusan unit test 100% sukses.

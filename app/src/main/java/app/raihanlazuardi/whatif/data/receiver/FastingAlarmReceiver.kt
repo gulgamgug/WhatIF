@@ -31,12 +31,27 @@ class FastingAlarmReceiver : BroadcastReceiver() {
             }
 
             FastingScheduler.ACTION_EAT_START -> {
-                NotificationHelper.showNotification(
-                    context = context,
-                    title = "Waktunya Makan Dibuka! 🥗",
-                    message = "Jendela makan Anda telah dibuka sampai pukul ${currentData.schedule.formattedStartTime}. Selamat menikmati makanan bernutrisi!",
-                    notificationId = NotificationHelper.NOTIFICATION_ID_EAT_START
-                )
+                val today = java.time.LocalDate.now()
+                val mokelsToday = repository.getMokelsForDate(today)
+                val isCleanFast = mokelsToday.isEmpty()
+
+                if (isCleanFast) {
+                    // Otomatis catat ke database kalender sebagai Berhasil IF
+                    repository.markFastSuccess(today)
+                    NotificationHelper.showNotification(
+                        context = context,
+                        title = "Selamat! Puasa IF Berhasil 🎉",
+                        message = "Target puasa ${currentData.schedule.fastingDurationHours.toInt()} jam tercapai tanpa mokel! Jendela makan dibuka sampai pukul ${currentData.schedule.formattedStartTime}.",
+                        notificationId = NotificationHelper.NOTIFICATION_ID_EAT_START
+                    )
+                } else {
+                    NotificationHelper.showNotification(
+                        context = context,
+                        title = "Waktunya Makan Dibuka! 🥗",
+                        message = "Jendela makan Anda telah dibuka sampai pukul ${currentData.schedule.formattedStartTime}. Selamat menikmati makanan bernutrisi!",
+                        notificationId = NotificationHelper.NOTIFICATION_ID_EAT_START
+                    )
+                }
                 // Reschedule for next day
                 FastingScheduler.scheduleAlarms(context, currentData.schedule)
             }

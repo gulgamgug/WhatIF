@@ -78,9 +78,38 @@ class WhatIFRepository(private val context: Context) {
 
     fun addMokel(record: MokelRecord) {
         val updatedList = listOf(record) + _dataFlow.value.mokelRecords
-        val updated = _dataFlow.value.copy(mokelRecords = updatedList)
+        // Adding mokel on a date invalidates clean fasting success for that date
+        val updatedFastDates = _dataFlow.value.completedFastDates.filterNot { it == record.localDate }
+        val updated = _dataFlow.value.copy(
+            mokelRecords = updatedList,
+            completedFastDates = updatedFastDates
+        )
         _dataFlow.value = updated
         scope.launch { saveToFile(updated) }
+    }
+
+    fun markFastSuccess(date: LocalDate) {
+        val current = _dataFlow.value.completedFastDates
+        if (!current.contains(date)) {
+            val updated = current + date
+            val newData = _dataFlow.value.copy(completedFastDates = updated)
+            _dataFlow.value = newData
+            scope.launch { saveToFile(newData) }
+        }
+    }
+
+    fun checkAndAutoCompleteToday(schedule: FastingSchedule) {
+        val today = LocalDate.now()
+        val mokelsToday = getMokelsForDate(today)
+        if (mokelsToday.isNotEmpty()) {
+            return
+        }
+
+        val status = app.raihanlazuardi.whatif.data.model.FastingCalculator.calculateStatus(schedule)
+        // If we are currently in EATING phase (meaning the fasting window has concluded without mokel)
+        if (status.phase == app.raihanlazuardi.whatif.data.model.FastingPhase.EATING) {
+            markFastSuccess(today)
+        }
     }
 
     fun deleteMokel(id: String) {

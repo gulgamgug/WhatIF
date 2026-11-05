@@ -27,6 +27,18 @@ class WhatIFViewModel(application: Application) : AndroidViewModel(application) 
             initialValue = WhatIFData()
         )
 
+    init {
+        viewModelScope.launch {
+            repository.checkAndAutoCompleteToday(repository.dataFlow.value.schedule)
+        }
+    }
+
+    fun checkAndAutoCompleteFasting() {
+        viewModelScope.launch {
+            repository.checkAndAutoCompleteToday(uiState.value.schedule)
+        }
+    }
+
     fun updateSchedule(schedule: FastingSchedule) {
         viewModelScope.launch {
             repository.updateSchedule(schedule)
