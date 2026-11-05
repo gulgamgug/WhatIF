@@ -127,6 +127,7 @@ class WhatIFRepository(private val context: Context) {
             put("name", data.profile.name)
             put("targetFastingHours", data.profile.targetFastingHours)
             put("notificationsEnabled", data.profile.notificationsEnabled)
+            put("useDynamicColor", data.profile.useDynamicColor)
         }
         root.put("profile", profileObj)
 
@@ -163,7 +164,8 @@ class WhatIFRepository(private val context: Context) {
             UserProfile(
                 name = p.optString("name", "Sobat IF"),
                 targetFastingHours = p.optInt("targetFastingHours", 16),
-                notificationsEnabled = p.optBoolean("notificationsEnabled", true)
+                notificationsEnabled = p.optBoolean("notificationsEnabled", true),
+                useDynamicColor = p.optBoolean("useDynamicColor", true)
             )
         } else UserProfile()
 

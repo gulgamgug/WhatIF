@@ -57,7 +57,7 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun WhatIFTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false, // Default to our vibrant custom Expressive color scheme
+    dynamicColor: Boolean = true, // Material You dynamic theming enabled by default on Android 12+
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

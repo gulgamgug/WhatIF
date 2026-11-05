@@ -90,7 +90,8 @@ data class MokelRecord(
 data class UserProfile(
     val name: String = "Sobat IF",
     val targetFastingHours: Int = 16,
-    val notificationsEnabled: Boolean = true
+    val notificationsEnabled: Boolean = true,
+    val useDynamicColor: Boolean = true
 )
 
 data class WhatIFData(
