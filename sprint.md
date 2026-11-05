@@ -11,7 +11,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ---
 
-## 🚀 Rencana Sprint (Total: 11 Sprint)
+## 🚀 Rencana Sprint (Total: 12 Sprint)
 
 ### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
@@ -125,3 +125,12 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
   - Layar aktif yang keluar (`slideOutOfContainer`) bergeser keluar cepat hanya dalam **75ms** dengan `EaseOut`.
   - Layar tujuan yang masuk (`slideIntoContainer`) meluncur masuk dan mendarat mulus dalam total durasi **200ms** dengan `EaseOut`.
 - Verifikasi kompilasi dan kelulusan build (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` sukses).
+
+### [✅] Sprint 12: Zero-Lag WhatsApp-Style Tab Navigation (HorizontalPager & Offscreen Pre-rendering)
+- **Root Cause Analysis (Stutter & 300ms Delay)**: `AnimatedContent` sebelumnya men-dispose layar aktif dan baru me-layout/me-render layar tujuan dari nol persis saat tombol tab ditekan pada UI main thread, menyebabkan frame drop (*jank*) dan jeda render ~300ms.
+- **HorizontalPager Architecture**: Mengganti `AnimatedContent` dengan `HorizontalPager` (`androidx.compose.foundation.pager.HorizontalPager`) yang didukung hardware-accelerated GPU layer translation, sama persis seperti arsitektur tab WhatsApp/ViewPager.
+- **Offscreen Pre-rendering (`beyondViewportPageCount = 1`)**: Layar adjacent (Beranda, Kalender, Profil) telah siap dikomposisikan dan di-layout di memori, sehingga saat tab di-tap atau digeser, tidak ada beban inflasi layout dadakan di main thread.
+- **Instant Touch Feedback**: State seleksi tab indikator mengamati `targetPage` saat `isScrollInProgress` aktif, sehingga indikator tab menyala secara instan pada milidetik pertama saat disentuh.
+- **Gesture Swipe Support**: Selain tap navigasi instan via `pagerState.animateScrollToPage(...)`, pengguna kini dapat langsung melakukan gesture geser/swipe jari antar tab secara natural 1:1 seperti WhatsApp.
+- **Predictive Back Integration**: Tetap mendukung `BackHandler` mulus yang menggeser kembali ke Beranda jika tombol back ditekan di tab Kalender/Profil.
+- Verifikasi penuh (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).

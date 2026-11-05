@@ -5,14 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.CalendarMonth
@@ -27,12 +25,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.raihanlazuardi.whatif.ui.WhatIFViewModel
 import app.raihanlazuardi.whatif.ui.components.DayDetailBottomSheet
@@ -43,6 +40,7 @@ import app.raihanlazuardi.whatif.ui.screens.HomeScreen
 import app.raihanlazuardi.whatif.ui.screens.ProfileScreen
 import app.raihanlazuardi.whatif.ui.theme.WhatIFTheme
 import java.time.LocalDate
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,15 +70,25 @@ fun WhatIFApp(
     viewModel: WhatIFViewModel,
     appData: app.raihanlazuardi.whatif.data.model.WhatIFData
 ) {
-    var currentDestination by rememberSaveable { mutableStateOf(AppDestination.HOME) }
+    val pagerState = rememberPagerState(
+        initialPage = AppDestination.HOME.ordinal,
+        pageCount = { AppDestination.entries.size }
+    )
+    val coroutineScope = rememberCoroutineScope()
+
     var showScheduleSheet by rememberSaveable { mutableStateOf(false) }
     var showMokelSheet by rememberSaveable { mutableStateOf(false) }
     var selectedCalendarDate by remember { mutableStateOf<LocalDate?>(null) }
     var targetDateForNewMokel by remember { mutableStateOf<LocalDate?>(null) }
 
-    // Predictive back gesture: when on sub-screens (Calendar or Profile), back navigates to Home first
-    BackHandler(enabled = currentDestination != AppDestination.HOME) {
-        currentDestination = AppDestination.HOME
+    // Predictive back gesture: when on sub-screens (Calendar or Profile), back smoothly scrolls to Home first
+    BackHandler(enabled = pagerState.currentPage != AppDestination.HOME.ordinal) {
+        coroutineScope.launch {
+            pagerState.animateScrollToPage(
+                page = AppDestination.HOME.ordinal,
+                animationSpec = tween(durationMillis = 200, easing = EaseOut)
+            )
+        }
     }
 
     Scaffold(
@@ -88,9 +96,22 @@ fun WhatIFApp(
         bottomBar = {
             NavigationBar {
                 AppDestination.entries.forEach { destination ->
+                    val isSelected = (if (pagerState.isScrollInProgress) pagerState.targetPage else pagerState.currentPage) == destination.ordinal
                     NavigationBarItem(
-                        selected = currentDestination == destination,
-                        onClick = { currentDestination = destination },
+                        selected = isSelected,
+                        onClick = {
+                            if (pagerState.currentPage != destination.ordinal) {
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(
+                                        page = destination.ordinal,
+                                        animationSpec = tween(
+                                            durationMillis = 200,
+                                            easing = EaseOut
+                                        )
+                                    )
+                                }
+                            }
+                        },
                         icon = {
                             Icon(
                                 imageVector = destination.icon,
@@ -103,32 +124,15 @@ fun WhatIFApp(
             }
         }
     ) { innerPadding ->
-        AnimatedContent(
-            targetState = currentDestination,
-            transitionSpec = {
-                val direction = if (targetState.ordinal > initialState.ordinal) {
-                    AnimatedContentTransitionScope.SlideDirection.Left
-                } else {
-                    AnimatedContentTransitionScope.SlideDirection.Right
-                }
-                slideIntoContainer(
-                    towards = direction,
-                    animationSpec = tween(
-                        durationMillis = 200,
-                        easing = EaseOut
-                    )
-                ) togetherWith slideOutOfContainer(
-                    towards = direction,
-                    animationSpec = tween(
-                        durationMillis = 75,
-                        easing = EaseOut
-                    )
-                )
-            },
-            modifier = Modifier.padding(innerPadding),
-            label = "ScreenTransition"
-        ) { destination ->
-            when (destination) {
+        HorizontalPager(
+            state = pagerState,
+            beyondViewportPageCount = 1,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            key = { page -> AppDestination.entries[page] }
+        ) { page ->
+            when (AppDestination.entries[page]) {
                 AppDestination.HOME -> {
                     HomeScreen(
                         userName = appData.profile.name,
