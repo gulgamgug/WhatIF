@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.raihanlazuardi.whatif.ui.WhatIFViewModel
+import app.raihanlazuardi.whatif.ui.components.FastingScheduleBottomSheet
 import app.raihanlazuardi.whatif.ui.screens.HomeScreen
 import app.raihanlazuardi.whatif.ui.theme.WhatIFTheme
 import java.time.LocalDate
@@ -67,6 +68,7 @@ fun WhatIFApp(
     appData: app.raihanlazuardi.whatif.data.model.WhatIFData
 ) {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestination.HOME) }
+    var showScheduleSheet by rememberSaveable { mutableStateOf(false) }
 
     // Predictive back gesture: when on sub-screens (Calendar or Profile), back navigates to Home first
     BackHandler(enabled = currentDestination != AppDestination.HOME) {
@@ -106,7 +108,7 @@ fun WhatIFApp(
                         schedule = appData.schedule,
                         todayMokels = appData.mokelRecords.filter { it.localDate == LocalDate.now() },
                         onRecordMokelClick = { /* Wired in Sprint 5 */ },
-                        onEditScheduleClick = { /* Wired in Sprint 4 */ },
+                        onEditScheduleClick = { showScheduleSheet = true },
                         onDeleteMokel = { id -> viewModel.deleteMokel(id) }
                     )
                 }
@@ -128,5 +130,15 @@ fun WhatIFApp(
                 }
             }
         }
+    }
+
+    if (showScheduleSheet) {
+        FastingScheduleBottomSheet(
+            currentSchedule = appData.schedule,
+            onDismissRequest = { showScheduleSheet = false },
+            onSaveSchedule = { newSchedule ->
+                viewModel.updateSchedule(newSchedule)
+            }
+        )
     }
 }

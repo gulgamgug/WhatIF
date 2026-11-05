@@ -41,7 +41,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - Tampilan ringkasan mokel hari ini di Home.
 - Integrasi `WhatIFViewModel` dengan dukungan Material You dynamic theming.
 
-### [ ] Sprint 4: Fasting Schedule Settings ("Atur Jam Puasa")
+### [✅] Sprint 4: Fasting Schedule Settings ("Atur Jam Puasa")
 - Dialog / Bottom Sheet pengaturan jam puasa menggunakan Material 3 TimePicker.
 - Dukungan template preset IF populer:
   - 16:8 (LeanGains - Default)
@@ -50,7 +50,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
   - 14:10 (Beginner)
   - Custom (bebas pilih jam mulai dan jam selesai).
 - Kalkulasi otomatis durasi puasa vs jendela makan.
-- Penyimpanan jadwal dan sinkronisasi instan ke timer Home.
+- Penyimpanan jadwal dan sinkronisasi instan ke timer Home via `WhatIFViewModel`.
 
 ### [ ] Sprint 5: Fitur Catat Mokel ("Pencatatan Mokel")
 - Form Modal / Bottom Sheet "Catat Mokel":
