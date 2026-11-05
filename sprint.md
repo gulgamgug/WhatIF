@@ -11,7 +11,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ---
 
-## 🚀 Rencana Sprint (Total: 14 Sprint)
+## 🚀 Rencana Sprint (Total: 15 Sprint)
 
 ### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
@@ -160,3 +160,24 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
   - Penambahan tombol integrasi *"Izin Latar Belakang (OneUI / HyperOS)"* di menu Profil untuk memandu dan membuka pengaturan baterai agar aplikasi tidak dihentikan paksa oleh manajemen baterai agresif OEM (Samsung Sleeping Apps / Xiaomi MIUI Autostart & Battery Saver).
 - Penambahan unit test `testMokelInvalidatesCompletedFastDate` di `CalendarDataModelTest`.
 - Verifikasi kompilasi dan kelulusan unit test 100% sukses.
+
+### [✅] Sprint 15: Multi-Size Responsive Home Screen AppWidget (2x1, 2x2, 2x3, 3x2, 3x3)
+- **Responsive Sizing Matrix**:
+  - Implementasi Android AppWidget menggunakan `AppWidgetProvider` dan API responsive `RemoteViews(Map<SizeF, RemoteViews>)` standar Android 12+ (minSdk 31).
+  - Mendukung 5 variasi ukuran grid launcher secara adaptif:
+    - **2x1**: Baris ringkas horizontal (Ikon fase, status "Waktu Puasa/Makan", hitung mundur live, target selesai).
+    - **2x2**: Kartu persegi seimbang standar (Badge chip fase, countdown besar, info target jam, badge mokel).
+    - **2x3**: Kartu vertikal tinggi (Header branding, chip fase, countdown besar, ringkasan jam mulai-selesai, badge mokel).
+    - **3x2**: Kartu lebar medium (Kolom kiri untuk status fase & countdown, kolom kanan untuk detail jadwal IF & badge mokel).
+    - **3x3**: Dashboard luas lengkap (Header status, hero countdown berukuran 34sp, jadwal puasa, badge mokel hari ini).
+- **Battery-Friendly Live Countdown via OS Chronometer**:
+  - Menggunakan `Chronometer` dengan `setChronometerCountDown(true)` yang di-render langsung oleh SystemUI OS.
+  - Ticking setiap detik secara presisi tanpa perlu background service yang boros baterai atau memicu wakelock.
+- **Dynamic Theming & Visual States**:
+  - Menyesuaikan warna latar belakang dan ikon secara otomatis: Dark Indigo (`#18182E`) untuk fase puasa 🌙 dan Dark Emerald (`#0A2A20`) untuk jendela makan 🥗.
+  - Badge catatan mokel hari ini dengan aksen Rose/Coral (`#FB7185`).
+  - Ketuk (*tap*) pada area widget langsung membuka aplikasi WhatIF (`MainActivity`).
+- **Real-time Widget Synchronization**:
+  - Widget diperbarui secara instan saat jadwal diubah, saat mokel dicatat/dihapus, saat notifikasi alarm berbunyi, dan saat perangkat selesai boot.
+- Penambahan unit test `AppWidgetLogicTest` untuk memverifikasi kalkulasi milidetik target countdown widget.
+- Verifikasi penuh (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).

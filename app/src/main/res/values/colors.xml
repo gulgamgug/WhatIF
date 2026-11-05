@@ -7,4 +7,22 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Widget Expressive Colors -->
+    <color name="fasting_card_bg">#18182E</color>
+    <color name="fasting_card_stroke">#3730A3</color>
+    <color name="fasting_accent">#818CF8</color>
+    <color name="fasting_chip_bg">#282463</color>
+
+    <color name="eating_card_bg">#0A2A20</color>
+    <color name="eating_card_stroke">#047857</color>
+    <color name="eating_accent">#34D399</color>
+    <color name="eating_chip_bg">#0E4434</color>
+
+    <color name="widget_text_primary">#FFFFFF</color>
+    <color name="widget_text_secondary">#CBD5E1</color>
+    <color name="widget_text_muted">#94A3B8</color>
+    <color name="widget_mokel_bg">#3E1218</color>
+    <color name="widget_mokel_stroke">#9F1239</color>
+    <color name="widget_mokel_text">#FB7185</color>
 </resources>

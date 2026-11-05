@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WhatIF</string>
+    <string name="widget_name">WhatIF Tracker</string>
+    <string name="widget_description">Menampilkan sisa waktu fase puasa/makan di home screen</string>
 </resources>

@@ -28,6 +28,7 @@ class FastingAlarmReceiver : BroadcastReceiver() {
                 )
                 // Reschedule for next day
                 FastingScheduler.scheduleAlarms(context, currentData.schedule)
+                app.raihanlazuardi.whatif.widget.FastingAppWidgetProvider.updateAllWidgets(context)
             }
 
             FastingScheduler.ACTION_EAT_START -> {
@@ -54,6 +55,7 @@ class FastingAlarmReceiver : BroadcastReceiver() {
                 }
                 // Reschedule for next day
                 FastingScheduler.scheduleAlarms(context, currentData.schedule)
+                app.raihanlazuardi.whatif.widget.FastingAppWidgetProvider.updateAllWidgets(context)
             }
 
             Intent.ACTION_BOOT_COMPLETED -> {

@@ -59,6 +59,7 @@ class WhatIFRepository(private val context: Context) {
             if (tempFile.renameTo(dataFile) || tempFile.copyTo(dataFile, overwrite = true).exists()) {
                 tempFile.delete()
             }
+            app.raihanlazuardi.whatif.widget.FastingAppWidgetProvider.updateAllWidgets(context)
         } catch (e: Exception) {
             e.printStackTrace()
         }
