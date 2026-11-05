@@ -79,23 +79,17 @@ fun CalendarScreen(
         completedFastDates.toSet()
     }
 
-    // Generate list of months for vertical scrolling:
-    // Index 0: Next Month (1 month ahead for planning)
-    // Index 1: Current Month (Bulan Ini)
-    // Index 2..25: Past 24 months (2 full years of history)
+    // Generate list of months for vertical scrolling starting from Current Month going back 24 months
     val monthsList = remember {
-        val list = mutableListOf<YearMonth>()
-        list.add(currentYearMonth.plusMonths(1)) // future
-        for (offset in 0..24) {
-            list.add(currentYearMonth.minusMonths(offset.toLong()))
+        (0..24).map { offset ->
+            currentYearMonth.minusMonths(offset.toLong())
         }
-        list
     }
 
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = 1)
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = 0)
 
     val isScrolledAwayFromCurrentMonth = remember {
-        derivedStateOf { listState.firstVisibleItemIndex != 1 }
+        derivedStateOf { listState.firstVisibleItemIndex > 3 }
     }
 
     // Total stats true to database
@@ -278,7 +272,7 @@ fun CalendarScreen(
             FilledTonalButton(
                 onClick = {
                     coroutineScope.launch {
-                        listState.animateScrollToItem(index = 1)
+                        listState.animateScrollToItem(index = 0)
                     }
                 },
                 shape = RoundedCornerShape(percent = 50),

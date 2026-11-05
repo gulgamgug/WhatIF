@@ -137,7 +137,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ### [✅] Sprint 13: Vertical Scrollable Calendar & True-to-Database Fasting History
 - **Vertical Scrollable Calendar Timeline**:
-  - Mengubah tampilan kalender dari navigasi bulan tunggal menjadi daftar bulan yang dapat di-scroll vertikal secara kontinu (`LazyColumn`) hingga 24 bulan ke belakang.
+  - Mengubah tampilan kalender dari navigasi bulan tunggal menjadi daftar bulan yang dapat di-scroll vertikal secara kontinu (`LazyColumn`) dimulai langsung dari Bulan Ini hingga 24 bulan ke belakang (menghapus bulan masa depan `+1` yang tidak relevan).
   - Setiap bulan disajikan dalam Card dengan header nama bulan, badge ringkasan bulanan, dan grid hari.
   - Tombol aksi melayang *"Kembali ke Bulan Ini"* yang otomatis muncul ketika pengguna melakukan scroll jauh ke masa lalu.
 - **True to Database Fasting Status**:
