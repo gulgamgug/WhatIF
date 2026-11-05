@@ -39,6 +39,7 @@ import app.raihanlazuardi.whatif.ui.components.FastingScheduleBottomSheet
 import app.raihanlazuardi.whatif.ui.components.MokelLoggerBottomSheet
 import app.raihanlazuardi.whatif.ui.screens.CalendarScreen
 import app.raihanlazuardi.whatif.ui.screens.HomeScreen
+import app.raihanlazuardi.whatif.ui.screens.ProfileScreen
 import app.raihanlazuardi.whatif.ui.theme.WhatIFTheme
 import java.time.LocalDate
 
@@ -125,12 +126,16 @@ fun WhatIFApp(
                     )
                 }
                 AppDestination.PROFILE -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "Halaman ${destination.label}")
-                    }
+                    ProfileScreen(
+                        appData = appData,
+                        onUpdateName = { newName -> viewModel.updateProfileName(newName) },
+                        onToggleDynamicColor = { enabled ->
+                            viewModel.updateProfile(appData.profile.copy(useDynamicColor = enabled))
+                        },
+                        onExportJson = { viewModel.exportDatabaseJson() },
+                        onImportJson = { jsonStr -> viewModel.importDatabaseJson(jsonStr) },
+                        onResetData = { viewModel.resetDatabase() }
+                    )
                 }
             }
         }

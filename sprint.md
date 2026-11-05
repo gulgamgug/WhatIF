@@ -73,15 +73,16 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
   - Daftar lengkap mokel pada tanggal tersebut (jam kejadian, makanan, catatan).
   - Opsi tambah / hapus mokel langsung dari detail tanggal.
 
-### [ ] Sprint 7: Profil Pengguna & Ekspor/Impor Database Lokal
+### [✅] Sprint 7: Profil Pengguna & Ekspor/Impor Database Lokal
 - Form profil sederhana: ubah dan simpan nama pengguna.
-- Ringkasan statistik IF: total hari puasa, rekor streak puasa, total kejadian mokel.
+- Pengaturan Appearance: toggle Material You Dynamic Theme vs Expressive Theme.
 - Fitur **Ekspor Database**:
-  - Mengekspor seluruh konfigurasi jadwal, profil, dan riwayat mokel ke file JSON.
-  - Memanfaatkan Storage Access Framework / Share Sheet agar file bisa disimpan atau dibagikan.
+  - Mengekspor seluruh konfigurasi jadwal, profil, dan riwayat mokel ke file JSON menggunakan Storage Access Framework (`ActivityResultContracts.CreateDocument`).
+  - Opsi salin langsung JSON ke clipboard untuk pencadangan cepat.
 - Fitur **Impor Database**:
-  - Membaca file backup JSON dan memulihkan seluruh data aplikasi secara aman (validasi skema).
-  - Opsi reset data ke kondisi awal dengan dialog konfirmasi.
+  - Membaca file backup JSON menggunakan SAF (`ActivityResultContracts.OpenDocument`) atau tempel teks JSON secara aman dengan validasi format.
+  - Pemulihan seluruh data aplikasi secara atomik ke local storage.
+- Opsi reset data ke kondisi awal dengan dialog konfirmasi aman.
 
 ### [ ] Sprint 8: Notifikasi Sistem Pengingat Puasa & Makan
 - Setup Notification Channel Android (High Priority).
