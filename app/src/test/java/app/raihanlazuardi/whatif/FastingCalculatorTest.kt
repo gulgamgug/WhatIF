@@ -64,4 +64,36 @@ class FastingCalculatorTest {
         val status = FastingCalculator.calculateStatus(schedule, now)
         assertTrue(status.progress in 0f..1f)
     }
+
+    @Test
+    fun testSameDayFasting_daytimeFast() {
+        val schedule = FastingSchedule(startHour = 5, startMinute = 0, endHour = 19, endMinute = 0)
+        assertEquals(14f, schedule.fastingDurationHours, 0.01f)
+        assertEquals(10f, schedule.eatingDurationHours, 0.01f)
+
+        // At 10:00 -> Fasting
+        val morning = LocalDateTime.of(LocalDate.of(2026, 11, 5), LocalTime.of(10, 0))
+        val statusMorning = FastingCalculator.calculateStatus(schedule, morning)
+        assertEquals(FastingPhase.FASTING, statusMorning.phase)
+
+        // At 21:00 -> Eating
+        val night = LocalDateTime.of(LocalDate.of(2026, 11, 5), LocalTime.of(21, 0))
+        val statusNight = FastingCalculator.calculateStatus(schedule, night)
+        assertEquals(FastingPhase.EATING, statusNight.phase)
+    }
+
+    @Test
+    fun testExactBoundaryTimes() {
+        val schedule = FastingSchedule(startHour = 20, startMinute = 0, endHour = 12, endMinute = 0)
+
+        // Exactly at start time (20:00) -> Fasting begins
+        val atStart = LocalDateTime.of(LocalDate.of(2026, 11, 5), LocalTime.of(20, 0))
+        val statusStart = FastingCalculator.calculateStatus(schedule, atStart)
+        assertEquals(FastingPhase.FASTING, statusStart.phase)
+
+        // Exactly at end time (12:00) -> Eating window begins
+        val atEnd = LocalDateTime.of(LocalDate.of(2026, 11, 5), LocalTime.of(12, 0))
+        val statusEnd = FastingCalculator.calculateStatus(schedule, atEnd)
+        assertEquals(FastingPhase.EATING, statusEnd.phase)
+    }
 }

@@ -93,7 +93,8 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - Penanganan izin runtime `POST_NOTIFICATIONS` untuk Android 13+.
 - Tombol uji coba pengiriman notifikasi instan di menu Profil.
 
-### [ ] Sprint 9: Polish, Predictive Back Validation, Edge Cases & Verification
-- Validasi Predictive Back Gesture di semua screen, modal, dan bottom sheet (kembali ke tab utama sebelum keluar).
-- Pengujian kasus edge case: jam puasa melewati pergantian hari (lintas tengah malam misal 20:00 - 12:00), pergantian tanggal otomatis.
-- Final build assembly (`./gradlew assembleDebug`) dan verifikasi kebersihan kode.
+### [✅] Sprint 9: Polish, Predictive Back Validation, Edge Cases & Verification
+- Validasi Predictive Back Gesture di semua screen, modal, dan bottom sheet (`ModalBottomSheet` built-in predictive swipe, `BackHandler` navigasi kembali ke Home sebelum keluar aplikasi).
+- Pengujian kasus edge case: jam puasa melewati pergantian hari (lintas tengah malam misal 20:00 - 12:00), pergantian jam sama, transisi menit persis, dan validasi data kosong (`FastingCalculatorTest` 100% passed).
+- Final build assembly (`./gradlew assembleDebug` sukses menghasilkan `app-debug.apk`).
+- Dukungan penuh Material You Dynamic Theming di Android 12+ serta Google Sans font.
