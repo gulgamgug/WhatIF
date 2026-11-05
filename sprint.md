@@ -13,7 +13,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ## 🚀 Rencana Sprint (Total: 9 Sprint)
 
-### [ ] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
+### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
 - Konfigurasi `AndroidManifest.xml` untuk Predictive Back Gesture (`android:enableOnBackInvokedCallback="true"`).
 - Setup Google Sans Typography & Font Family.

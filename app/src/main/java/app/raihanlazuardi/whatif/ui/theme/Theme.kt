@@ -1,6 +1,5 @@
 package app.raihanlazuardi.whatif.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,32 +11,53 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Indigo300,
+    onPrimary = Indigo900,
+    primaryContainer = Indigo700,
+    onPrimaryContainer = Indigo100,
+    secondary = Emerald400,
+    onSecondary = Emerald900,
+    secondaryContainer = Emerald700,
+    onSecondaryContainer = Emerald200,
+    tertiary = Amber400,
+    onTertiary = Slate900,
+    tertiaryContainer = Coral900,
+    onTertiaryContainer = Coral100,
+    background = Slate950,
+    onBackground = Slate100,
+    surface = Slate900,
+    onSurface = Slate100,
+    surfaceVariant = Slate800,
+    onSurfaceVariant = Slate200,
+    outline = Slate700
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = Indigo600,
+    onPrimary = PureWhite,
+    primaryContainer = Indigo50,
+    onPrimaryContainer = Indigo900,
+    secondary = Emerald600,
+    onSecondary = PureWhite,
+    secondaryContainer = Emerald50,
+    onSecondaryContainer = Emerald900,
+    tertiary = Coral500,
+    onTertiary = PureWhite,
+    tertiaryContainer = Coral50,
+    onTertiaryContainer = Coral900,
+    background = Slate50,
+    onBackground = Slate900,
+    surface = PureWhite,
+    onSurface = Slate900,
+    surfaceVariant = Slate100,
+    onSurfaceVariant = Slate700,
+    outline = Slate200
 )
 
 @Composable
 fun WhatIFTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false, // Default to our vibrant custom Expressive color scheme
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -45,7 +65,6 @@ fun WhatIFTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
@@ -53,6 +72,7 @@ fun WhatIFTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        shapes = ExpressiveShapes,
         content = content
     )
 }
