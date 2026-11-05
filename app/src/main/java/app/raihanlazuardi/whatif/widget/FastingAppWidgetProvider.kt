@@ -6,6 +6,8 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import android.os.SystemClock
 import android.util.SizeF
 import android.view.View
 import android.widget.RemoteViews
@@ -17,7 +19,6 @@ import app.raihanlazuardi.whatif.data.model.FastingPhaseStatus
 import app.raihanlazuardi.whatif.data.model.FastingSchedule
 import app.raihanlazuardi.whatif.data.storage.WhatIFRepository
 import java.time.LocalDateTime
-import java.time.ZoneId
 
 class FastingAppWidgetProvider : AppWidgetProvider() {
 
@@ -43,6 +44,30 @@ class FastingAppWidgetProvider : AppWidgetProvider() {
                 mokelCount = todayMokels.size
             )
         }
+    }
+
+    override fun onAppWidgetOptionsChanged(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        newOptions: Bundle?
+    ) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
+        val repository = WhatIFRepository.getInstance(context)
+        val data = repository.dataFlow.value
+        val schedule = data.schedule
+        val now = LocalDateTime.now()
+        val status = FastingCalculator.calculateStatus(schedule, now)
+        val todayMokels = repository.getTodayMokels()
+
+        updateWidget(
+            context = context,
+            appWidgetManager = appWidgetManager,
+            appWidgetId = appWidgetId,
+            status = status,
+            schedule = schedule,
+            mokelCount = todayMokels.size
+        )
     }
 
     private fun updateWidget(
@@ -108,16 +133,16 @@ class FastingAppWidgetProvider : AppWidgetProvider() {
             views.setTextViewText(R.id.widget_target_time, "Mulai puasa pukul ${schedule.formattedStartTime}")
         }
 
-        // Live Countdown via OS Chronometer
-        val zoneId = ZoneId.systemDefault()
-        val targetMillis = status.phaseEndTime.atZone(zoneId).toInstant().toEpochMilli()
-        val nowMillis = System.currentTimeMillis()
+        // Live Countdown via Android OS Chronometer
+        // IMPORTANT: Chronometer uses SystemClock.elapsedRealtime(), NOT System.currentTimeMillis()!
+        val remainingMillis = status.secondsRemaining * 1000L
 
-        if (targetMillis > nowMillis) {
+        if (remainingMillis > 0) {
+            val chronometerBase = SystemClock.elapsedRealtime() + remainingMillis
             views.setViewVisibility(R.id.widget_chronometer, View.VISIBLE)
             views.setViewVisibility(R.id.widget_countdown_text, View.GONE)
             views.setChronometerCountDown(R.id.widget_chronometer, true)
-            views.setChronometer(R.id.widget_chronometer, targetMillis, null, true)
+            views.setChronometer(R.id.widget_chronometer, chronometerBase, null, true)
         } else {
             views.setViewVisibility(R.id.widget_chronometer, View.GONE)
             views.setViewVisibility(R.id.widget_countdown_text, View.VISIBLE)

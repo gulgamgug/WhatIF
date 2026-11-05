@@ -11,7 +11,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ---
 
-## 🚀 Rencana Sprint (Total: 15 Sprint)
+## 🚀 Rencana Sprint (Total: 16 Sprint)
 
 ### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
@@ -180,4 +180,21 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - **Real-time Widget Synchronization**:
   - Widget diperbarui secara instan saat jadwal diubah, saat mokel dicatat/dihapus, saat notifikasi alarm berbunyi, dan saat perangkat selesai boot.
 - Penambahan unit test `AppWidgetLogicTest` untuk memverifikasi kalkulasi milidetik target countdown widget.
+- Verifikasi penuh (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).
+
+### [✅] Sprint 16: Fix AppWidget Inflation Crash, Text Overlap & Chronometer Epoch Offset Bug
+- **Fix "Couldn't add widget" Crash (Width > 1)**:
+  - Mengidentifikasi akar masalah crash: penggunaan tag `<Space>` pada layout `2x2`, `2x3`, `3x2`, dan `3x3` yang secara ketat dilarang dalam Android `RemoteViews`, menyebabkan `android.view.InflateException: Class not allowed to be inflated in RemoteViews: android.widget.Space` saat launcher mencoba me-render ukuran tersebut.
+  - Menghapus seluruh tag `<Space>` dan menggantikannya dengan `android:layout_marginTop` / `android:layout_marginBottom` standar pada elemen, serta mengganti tag `<View>` dengan `<FrameLayout>`.
+- **Fix Text Overlapping (Size 2x1)**:
+  - Mengubah struktur layout `widget_fasting_2x1.xml` dari `RelativeLayout` dengan batas longgar menjadi horizontal `LinearLayout` berbobot (`layout_weight="1"` untuk kolom kiri teks, dan `wrap_content` untuk countdown timer kanan).
+  - Menambahkan pembatasan `singleLine="true"` dan `ellipsize="end"` agar teks nama fase dan jam target tidak saling menumpuk dengan timer saat ukuran widget sempit (2 kolom).
+- **Fix 498,185 Hours Timer Display Bug**:
+  - Mengidentifikasi akar masalah timer aneh (498185 jam): Android `Chronometer` menghitung waktu berbasis `SystemClock.elapsedRealtime()` (uptime milidetik sejak perangkat booting), BUKAN `System.currentTimeMillis()` (Unix epoch milidetik sejak 1970). Penggunaan epoch menghasilkan selisih ~1.79 triliun milidetik (~498.185 jam).
+  - Memperbaiki kalkulasi base waktu pada `FastingAppWidgetProvider.kt`:
+    `chronometerBase = SystemClock.elapsedRealtime() + (status.secondsRemaining * 1000L)`
+    sehingga hitung mundur jam, menit, dan detik berjalan normal dan akurat (misal: 05:29:40 -> 05:29:39).
+- **Options Change Lifecycle Listener**:
+  - Menambahkan override `onAppWidgetOptionsChanged` pada `FastingAppWidgetProvider` agar widget diperbarui secara instan saat pengguna me-resize widget di home screen.
+- Penyesuaian unit test pada `AppWidgetLogicTest`.
 - Verifikasi penuh (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).

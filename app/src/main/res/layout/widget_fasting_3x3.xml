@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/widget_bg_fasting"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="18dp">
 
     <!-- Top Row: App Label + Phase Badge -->
     <RelativeLayout
@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:singleLine="true"
             android:text="WhatIF Tracker"
             android:textColor="@color/widget_text_muted"
             android:textSize="11sp"
@@ -28,8 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@drawable/widget_chip_fasting"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingTop="4dp"
@@ -39,14 +40,15 @@
                 android:id="@+id/widget_icon"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:src="@drawable/ic_widget_moon"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                android:src="@drawable/ic_widget_moon" />
 
             <TextView
                 android:id="@+id/widget_phase_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="4dp"
+                android:singleLine="true"
                 android:text="Waktu Puasa 🌙"
                 android:textColor="@color/widget_text_primary"
                 android:textSize="11sp"
@@ -54,14 +56,11 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="16dp" />
-
     <!-- Center Hero Section: Big Countdown -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -69,17 +68,19 @@
             android:id="@+id/widget_chronometer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="@color/widget_text_primary"
-            android:textSize="34sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/widget_countdown_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:text="00:00:00"
             android:textColor="@color/widget_text_primary"
-            android:textSize="34sp"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:visibility="gone" />
 
@@ -87,22 +88,20 @@
             android:id="@+id/widget_target_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="3dp"
+            android:singleLine="true"
             android:text="Menuju Selesai Puasa (12:00)"
             android:textColor="@color/widget_text_secondary"
             android:textSize="12sp" />
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="18dp" />
-
     <!-- Info Card Grid -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -113,6 +112,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:text="Jadwal Puasa"
                 android:textColor="@color/widget_text_muted"
                 android:textSize="10sp" />
@@ -121,6 +121,7 @@
                 android:id="@+id/widget_schedule_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:text="16:8 (20:00 - 12:00)"
                 android:textColor="@color/widget_text_primary"
                 android:textSize="12sp"
@@ -134,8 +135,9 @@
             android:background="@drawable/widget_chip_mokel"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:singleLine="true"
             android:text="Mokel Hari Ini: 0x"
             android:textColor="@color/widget_mokel_text"
             android:textSize="11sp"

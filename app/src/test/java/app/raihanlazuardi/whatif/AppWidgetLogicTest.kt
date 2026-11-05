@@ -9,7 +9,6 @@ import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneId
 
 class AppWidgetLogicTest {
 
@@ -25,11 +24,10 @@ class AppWidgetLogicTest {
         assertEquals(0, status.phaseEndTime.minute)
         assertEquals(6, status.phaseEndTime.dayOfMonth) // next day
 
-        val zoneId = ZoneId.systemDefault()
-        val targetMillis = status.phaseEndTime.atZone(zoneId).toInstant().toEpochMilli()
-        val nowMillis = now.atZone(zoneId).toInstant().toEpochMilli()
-        assertTrue("Target time must be in future", targetMillis > nowMillis)
-        assertEquals(14 * 3600 * 1000L, targetMillis - nowMillis)
+        // Verify remaining time in seconds and millis
+        assertEquals(14 * 3600L, status.secondsRemaining)
+        val remainingMillis = status.secondsRemaining * 1000L
+        assertEquals(14 * 3600 * 1000L, remainingMillis)
     }
 
     @Test
@@ -44,10 +42,11 @@ class AppWidgetLogicTest {
         assertEquals(0, status.phaseEndTime.minute)
         assertEquals(5, status.phaseEndTime.dayOfMonth) // today
 
-        val zoneId = ZoneId.systemDefault()
-        val targetMillis = status.phaseEndTime.atZone(zoneId).toInstant().toEpochMilli()
-        val nowMillis = now.atZone(zoneId).toInstant().toEpochMilli()
-        assertTrue("Target time must be in future", targetMillis > nowMillis)
-        assertEquals(6 * 3600 * 1000L, targetMillis - nowMillis)
+        // 6 hours remaining = 21,600 seconds
+        assertEquals(6 * 3600L, status.secondsRemaining)
+        val remainingMillis = status.secondsRemaining * 1000L
+        assertEquals(6 * 3600 * 1000L, remainingMillis)
+        // Under 24 hours, definitely not 498,000+ hours!
+        assertTrue(status.hoursRemaining <= 24)
     }
 }
