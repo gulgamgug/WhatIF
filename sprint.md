@@ -11,7 +11,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ---
 
-## 🚀 Rencana Sprint (Total: 16 Sprint)
+## 🚀 Rencana Sprint (Total: 17 Sprint)
 
 ### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
@@ -198,3 +198,21 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
   - Menambahkan override `onAppWidgetOptionsChanged` pada `FastingAppWidgetProvider` agar widget diperbarui secara instan saat pengguna me-resize widget di home screen.
 - Penyesuaian unit test pada `AppWidgetLogicTest`.
 - Verifikasi penuh (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).
+
+### [✅] Sprint 17: Developer About Dialog & Open Source Licenses
+- **Host PC & Developer Info Injection via BuildConfig**:
+  - Mengambil identitas nama host PC pengembang (`cachyos-x8664`) dan username pengembang (`raihanlazuardi`) langsung dari environment mesin.
+  - Mengaktifkan `buildFeatures.buildConfig = true` di `app/build.gradle.kts` serta menginjeksi `buildConfigField`:
+    - `BUILD_HOST = "cachyos-x8664"`
+    - `DEVELOPER_NAME = "raihanlazuardi"`
+- **Data Model Lisensi Pihak Ketiga (`OpenSourceLicense.kt`)**:
+  - Menyusun katalog pustaka sumber terbuka yang digunakan aplikasi (AndroidX Jetpack Compose, Material 3 Expressive, Material Icons Extended, Adaptive Navigation Suite, Core KTX, Lifecycle & ViewModel Compose, Activity Compose, Kotlin Standard Library & Coroutines, Google Sans Flex Variable Font, dan JUnit 4).
+  - Menyertakan ringkasan teks lisensi resmi (Apache License 2.0, SIL Open Font License 1.1, dan Eclipse Public License 1.0).
+- **Komponen UI Modern Dialog About & Lisensi (`AboutComponents.kt`)**:
+  - `AboutDialog`: Menampilkan ikon WhatIF, versi aplikasi (1.0 Build 1), badge arsitektur modern (Compose, M3 Expressive, Material You), kartu informasi developer (`raihanlazuardi`), host mesin pengembang (`cachyos-x8664`), jaminan privasi 100% offline lokal, serta tombol cepat ke lisensi open source.
+  - `OpenSourceLicensesDialog`: Menampilkan daftar scrollable pustaka open source lengkap dengan badge lisensi, deskripsi, dan teks lisensi yang dapat di-expand/collapse secara interaktif.
+- **Integrasi di Layar Profile (`ProfileScreen.kt`)**:
+  - Menambahkan bagian *"Informasi & Lisensi"* di tab Pengaturan/Profil dengan dua kartu navigasi interaktif: *"Tentang WhatIF"* dan *"Open Source Licenses"*.
+- **Unit Testing & Verifikasi**:
+  - Penambahan `AboutAndLicenseTest.kt` untuk memverifikasi keutuhan BuildConfig pengembang/host dan kelengkapan katalog metadata lisensi pustaka.
+  - Build dan test suite (`./gradlew testDebugUnitTest assembleDebug`) 100% sukses.
