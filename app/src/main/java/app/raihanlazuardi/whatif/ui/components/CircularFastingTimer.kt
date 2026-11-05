@@ -32,6 +32,7 @@ import app.raihanlazuardi.whatif.ui.theme.Emerald400
 import app.raihanlazuardi.whatif.ui.theme.Emerald500
 import app.raihanlazuardi.whatif.ui.theme.Emerald600
 import app.raihanlazuardi.whatif.ui.theme.Emerald700
+import app.raihanlazuardi.whatif.ui.theme.GoogleSansFlexFontFamily
 import app.raihanlazuardi.whatif.ui.theme.Indigo500
 import app.raihanlazuardi.whatif.ui.theme.Indigo700
 import kotlin.math.cos
@@ -135,8 +136,9 @@ fun CircularFastingTimer(
             Text(
                 text = String.format("%02dj %02dm", status.hoursRemaining, status.minutesRemaining),
                 style = MaterialTheme.typography.displaySmall.copy(
+                    fontFamily = GoogleSansFlexFontFamily,
                     fontWeight = FontWeight.ExtraBold,
-                    fontSize = 36.sp
+                    fontSize = 38.sp
                 ),
                 color = MaterialTheme.colorScheme.onSurface
             )

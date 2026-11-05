@@ -11,7 +11,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ---
 
-## 🚀 Rencana Sprint (Total: 9 Sprint)
+## 🚀 Rencana Sprint (Total: 10 Sprint)
 
 ### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
@@ -97,4 +97,12 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - Validasi Predictive Back Gesture di semua screen, modal, dan bottom sheet (`ModalBottomSheet` built-in predictive swipe, `BackHandler` navigasi kembali ke Home sebelum keluar aplikasi).
 - Pengujian kasus edge case: jam puasa melewati pergantian hari (lintas tengah malam misal 20:00 - 12:00), pergantian jam sama, transisi menit persis, dan validasi data kosong (`FastingCalculatorTest` 100% passed).
 - Final build assembly (`./gradlew assembleDebug` sukses menghasilkan `app-debug.apk`).
-- Dukungan penuh Material You Dynamic Theming di Android 12+ serta Google Sans font.
+- Dukungan penuh Material You Dynamic Theming di Android 12+.
+
+### [✅] Sprint 10: Variable Fonts Integration (Playfair Display & Google Sans Flex)
+- **Problem Resolution**: Sebelumnya seluruh weight font tampak seragam/identik karena resource font TTF variable tidak di-interpolasi axis `wght`-nya oleh engine teks Compose jika hanya memakai `FontWeight` standar tanpa axis settings.
+- **Title & Headline Font**: Integrasi font variable TrueType **Playfair Display** (`playfair_display.ttf`, wght 400 - 900) dengan `FontVariation.Settings(FontVariation.weight(...))` untuk menghasilkan tipografi judul yang elegan, berkarakter serif editorial, dan berbobot tegas (Medium 500, SemiBold 600, Bold 700, ExtraBold 800, Black 900).
+- **Body & Label Font**: Integrasi font variable TrueType **Google Sans Flex** (`google_sans_flex.ttf`, wght 100 - 1000) dengan `FontVariation.Settings(FontVariation.weight(...))` untuk teks body, tombol, status chip, dan counter (Light 300, Normal 400, Medium 500, SemiBold 600, Bold 750, ExtraBold 850, Black 950).
+- **Timer Countdown Typography**: Penyesuaian `CircularFastingTimer` dengan `GoogleSansFlexFontFamily` dan weight ExtraBold (850) berukuran 38sp agar pembacaan sisa waktu puasa/makan kontras, tebal, dan sangat jelas terbaca.
+- **Family XML Fallback**: Pembuatan `playfair_display_family.xml` dan `google_sans_flex_family.xml` di `res/font/`.
+- Verifikasi kompilasi dan uji coba unit test (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).
