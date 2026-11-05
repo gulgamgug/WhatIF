@@ -52,14 +52,14 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - Kalkulasi otomatis durasi puasa vs jendela makan.
 - Penyimpanan jadwal dan sinkronisasi instan ke timer Home via `WhatIFViewModel`.
 
-### [ ] Sprint 5: Fitur Catat Mokel ("Pencatatan Mokel")
-- Form Modal / Bottom Sheet "Catat Mokel":
+### [✅] Sprint 5: Fitur Catat Mokel ("Pencatatan Mokel")
+- Form Modal / Bottom Sheet "Catat Mokel" (`MokelLoggerBottomSheet`):
   - Input nama makanan/minuman yang dikonsumsi ("Apa yang dimakan").
   - Jam konsumsi otomatis terisi jam saat ini (`LocalTime.now()`), dapat disesuaikan dengan TimePicker.
-  - Quick-tags / chips untuk input cepat (contoh: Kopi Manis, Gorengan, Camilan, Boba, dsb).
-  - Catatan tambahan (opsional).
-- Menampilkan daftar riwayat mokel hari ini di Home Screen.
-- Fitur hapus / edit catatan mokel jika terjadi salah input.
+  - Quick-tags / chips untuk input cepat (Kopi Manis, Gorengan, Boba, Camilan, Nasi, Roti).
+  - Catatan tambahan opsional.
+- Menampilkan daftar riwayat mokel hari ini di Home Screen secara real-time.
+- Fitur hapus catatan mokel langsung dari kartu riwayat harian.
 
 ### [ ] Sprint 6: Kalender Bulanan & Detail Mokel
 - Kalender interaktif bulanan dengan navigasi antar bulan (`< Bulan >`).

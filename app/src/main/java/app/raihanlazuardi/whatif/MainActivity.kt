@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.raihanlazuardi.whatif.ui.WhatIFViewModel
 import app.raihanlazuardi.whatif.ui.components.FastingScheduleBottomSheet
+import app.raihanlazuardi.whatif.ui.components.MokelLoggerBottomSheet
 import app.raihanlazuardi.whatif.ui.screens.HomeScreen
 import app.raihanlazuardi.whatif.ui.theme.WhatIFTheme
 import java.time.LocalDate
@@ -69,6 +70,7 @@ fun WhatIFApp(
 ) {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestination.HOME) }
     var showScheduleSheet by rememberSaveable { mutableStateOf(false) }
+    var showMokelSheet by rememberSaveable { mutableStateOf(false) }
 
     // Predictive back gesture: when on sub-screens (Calendar or Profile), back navigates to Home first
     BackHandler(enabled = currentDestination != AppDestination.HOME) {
@@ -107,7 +109,7 @@ fun WhatIFApp(
                         userName = appData.profile.name,
                         schedule = appData.schedule,
                         todayMokels = appData.mokelRecords.filter { it.localDate == LocalDate.now() },
-                        onRecordMokelClick = { /* Wired in Sprint 5 */ },
+                        onRecordMokelClick = { showMokelSheet = true },
                         onEditScheduleClick = { showScheduleSheet = true },
                         onDeleteMokel = { id -> viewModel.deleteMokel(id) }
                     )
@@ -138,6 +140,15 @@ fun WhatIFApp(
             onDismissRequest = { showScheduleSheet = false },
             onSaveSchedule = { newSchedule ->
                 viewModel.updateSchedule(newSchedule)
+            }
+        )
+    }
+
+    if (showMokelSheet) {
+        MokelLoggerBottomSheet(
+            onDismissRequest = { showMokelSheet = false },
+            onSaveMokel = { food, note, dateTime ->
+                viewModel.addMokel(food = food, note = note, dateTime = dateTime)
             }
         )
     }
