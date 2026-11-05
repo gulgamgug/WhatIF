@@ -34,8 +34,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.raihanlazuardi.whatif.ui.WhatIFViewModel
+import app.raihanlazuardi.whatif.ui.components.DayDetailBottomSheet
 import app.raihanlazuardi.whatif.ui.components.FastingScheduleBottomSheet
 import app.raihanlazuardi.whatif.ui.components.MokelLoggerBottomSheet
+import app.raihanlazuardi.whatif.ui.screens.CalendarScreen
 import app.raihanlazuardi.whatif.ui.screens.HomeScreen
 import app.raihanlazuardi.whatif.ui.theme.WhatIFTheme
 import java.time.LocalDate
@@ -71,6 +73,8 @@ fun WhatIFApp(
     var currentDestination by rememberSaveable { mutableStateOf(AppDestination.HOME) }
     var showScheduleSheet by rememberSaveable { mutableStateOf(false) }
     var showMokelSheet by rememberSaveable { mutableStateOf(false) }
+    var selectedCalendarDate by remember { mutableStateOf<LocalDate?>(null) }
+    var targetDateForNewMokel by remember { mutableStateOf<LocalDate?>(null) }
 
     // Predictive back gesture: when on sub-screens (Calendar or Profile), back navigates to Home first
     BackHandler(enabled = currentDestination != AppDestination.HOME) {
@@ -115,12 +119,10 @@ fun WhatIFApp(
                     )
                 }
                 AppDestination.CALENDAR -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "Halaman ${destination.label}")
-                    }
+                    CalendarScreen(
+                        mokelRecords = appData.mokelRecords,
+                        onDayClick = { date -> selectedCalendarDate = date }
+                    )
                 }
                 AppDestination.PROFILE -> {
                     Box(
@@ -146,10 +148,28 @@ fun WhatIFApp(
 
     if (showMokelSheet) {
         MokelLoggerBottomSheet(
-            onDismissRequest = { showMokelSheet = false },
+            targetDate = targetDateForNewMokel ?: LocalDate.now(),
+            onDismissRequest = {
+                showMokelSheet = false
+                targetDateForNewMokel = null
+            },
             onSaveMokel = { food, note, dateTime ->
                 viewModel.addMokel(food = food, note = note, dateTime = dateTime)
+                targetDateForNewMokel = null
             }
+        )
+    }
+
+    selectedCalendarDate?.let { date ->
+        DayDetailBottomSheet(
+            date = date,
+            mokelRecords = appData.mokelRecords.filter { it.localDate == date },
+            onDismissRequest = { selectedCalendarDate = null },
+            onAddMokelClick = { selectedDate ->
+                targetDateForNewMokel = selectedDate
+                showMokelSheet = true
+            },
+            onDeleteMokel = { id -> viewModel.deleteMokel(id) }
         )
     }
 }

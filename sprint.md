@@ -61,15 +61,15 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - Menampilkan daftar riwayat mokel hari ini di Home Screen secara real-time.
 - Fitur hapus catatan mokel langsung dari kartu riwayat harian.
 
-### [ ] Sprint 6: Kalender Bulanan & Detail Mokel
-- Kalender interaktif bulanan dengan navigasi antar bulan (`< Bulan >`).
+### [✅] Sprint 6: Kalender Bulanan & Detail Mokel
+- Kalender interaktif bulanan (`CalendarScreen`) dengan navigasi antar bulan (`< Bulan >`).
 - Indikator status tiap tanggal:
   - 🟢 **Berhasil IF**: hari di mana puasa berjalan tanpa mokel.
   - 🔴/🟠 **Ada Mokel**: hari di mana terdapat catatan mokel (disertai badge jumlah mokel).
-  - ⚪ **Hari ini / Netral**: penanda hari saat ini.
+  - ⚪ **Hari ini / Netral**: penanda hari saat ini dengan border aksen.
 - Interaksi klik tanggal:
-  - Membuka bottom sheet / dialog detail hari yang dipilih.
-  - Rincian status puasa pada tanggal tersebut.
+  - Membuka `DayDetailBottomSheet` dengan dukungan predictive back gesture.
+  - Rincian status puasa pada tanggal tersebut (Berhasil IF vs Ada Mokel).
   - Daftar lengkap mokel pada tanggal tersebut (jam kejadian, makanan, catatan).
   - Opsi tambah / hapus mokel langsung dari detail tanggal.
 
