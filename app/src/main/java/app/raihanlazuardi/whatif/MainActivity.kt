@@ -132,6 +132,12 @@ fun WhatIFApp(
                         onToggleDynamicColor = { enabled ->
                             viewModel.updateProfile(appData.profile.copy(useDynamicColor = enabled))
                         },
+                        onToggleNotifications = { enabled ->
+                            viewModel.updateNotificationsEnabled(enabled)
+                        },
+                        onSendTestNotification = {
+                            viewModel.sendTestNotification()
+                        },
                         onExportJson = { viewModel.exportDatabaseJson() },
                         onImportJson = { jsonStr -> viewModel.importDatabaseJson(jsonStr) },
                         onResetData = { viewModel.resetDatabase() }

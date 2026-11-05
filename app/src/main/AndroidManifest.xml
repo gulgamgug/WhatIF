@@ -36,7 +36,8 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="app.raihanlazuardi.whatif.ACTION_FASTING_ALARM" />
+                <action android:name="app.raihanlazuardi.whatif.ACTION_FAST_START" />
+                <action android:name="app.raihanlazuardi.whatif.ACTION_EAT_START" />
             </intent-filter>
         </receiver>
     </application>

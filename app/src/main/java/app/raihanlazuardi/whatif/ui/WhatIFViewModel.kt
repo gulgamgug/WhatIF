@@ -7,6 +7,8 @@ import app.raihanlazuardi.whatif.data.model.FastingSchedule
 import app.raihanlazuardi.whatif.data.model.MokelRecord
 import app.raihanlazuardi.whatif.data.model.UserProfile
 import app.raihanlazuardi.whatif.data.model.WhatIFData
+import app.raihanlazuardi.whatif.data.notification.FastingScheduler
+import app.raihanlazuardi.whatif.data.notification.NotificationHelper
 import app.raihanlazuardi.whatif.data.storage.WhatIFRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +30,29 @@ class WhatIFViewModel(application: Application) : AndroidViewModel(application) 
     fun updateSchedule(schedule: FastingSchedule) {
         viewModelScope.launch {
             repository.updateSchedule(schedule)
+            if (uiState.value.profile.notificationsEnabled) {
+                FastingScheduler.scheduleAlarms(getApplication(), schedule)
+            }
         }
+    }
+
+    fun updateNotificationsEnabled(enabled: Boolean) {
+        val currentProfile = uiState.value.profile
+        updateProfile(currentProfile.copy(notificationsEnabled = enabled))
+        if (enabled) {
+            FastingScheduler.scheduleAlarms(getApplication(), uiState.value.schedule)
+        } else {
+            FastingScheduler.cancelAlarms(getApplication())
+        }
+    }
+
+    fun sendTestNotification() {
+        NotificationHelper.showNotification(
+            context = getApplication(),
+            title = "Tes Notifikasi WhatIF 🥗",
+            message = "Notifikasi pengingat puasa & jendela makan berfungsi dengan baik!",
+            notificationId = NotificationHelper.NOTIFICATION_ID_TEST
+        )
     }
 
     fun updateProfile(profile: UserProfile) {

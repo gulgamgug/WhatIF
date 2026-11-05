@@ -84,13 +84,14 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
   - Pemulihan seluruh data aplikasi secara atomik ke local storage.
 - Opsi reset data ke kondisi awal dengan dialog konfirmasi aman.
 
-### [ ] Sprint 8: Notifikasi Sistem Pengingat Puasa & Makan
-- Setup Notification Channel Android (High Priority).
-- Penjadwalan notifikasi menggunakan `AlarmManager` & `BroadcastReceiver`:
-  - Notifikasi saat **Waktunya Puasa Dimulai** 🌙.
-  - Notifikasi saat **Waktunya Boleh Makan Dibuka** 🥗.
+### [✅] Sprint 8: Notifikasi Sistem Pengingat Puasa & Makan
+- Setup Notification Channel Android (High Priority `whatif_fasting_channel`).
+- Penjadwalan notifikasi menggunakan `AlarmManager` & `BroadcastReceiver` (`FastingScheduler` & `FastingAlarmReceiver`):
+  - Notifikasi saat **Waktunya Puasa Dimulai** 🌙 (menampilkan jam target selesai).
+  - Notifikasi saat **Waktunya Boleh Makan Dibuka** 🥗 (menampilkan jam mulai puasa kembali).
+  - Penjadwalan otomatis berulang tiap hari dan saat reboot device (`BOOT_COMPLETED`).
 - Penanganan izin runtime `POST_NOTIFICATIONS` untuk Android 13+.
-- Tombol uji coba pengiriman notifikasi langsung di menu Profil / Pengaturan.
+- Tombol uji coba pengiriman notifikasi instan di menu Profil.
 
 ### [ ] Sprint 9: Polish, Predictive Back Validation, Edge Cases & Verification
 - Validasi Predictive Back Gesture di semua screen, modal, dan bottom sheet (kembali ke tab utama sebelum keluar).

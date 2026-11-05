@@ -1,10 +1,12 @@
 package app.raihanlazuardi.whatif.ui.screens
 
+import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -31,6 +33,8 @@ import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileUpload
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.NotificationsActive
+import androidx.compose.material.icons.rounded.NotificationsNone
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -68,6 +72,8 @@ fun ProfileScreen(
     appData: WhatIFData,
     onUpdateName: (String) -> Unit,
     onToggleDynamicColor: (Boolean) -> Unit,
+    onToggleNotifications: (Boolean) -> Unit,
+    onSendTestNotification: () -> Unit,
     onExportJson: () -> String,
     onImportJson: (String) -> Result<Unit>,
     onResetData: () -> Unit,
@@ -80,6 +86,19 @@ fun ProfileScreen(
     var showResetDialog by remember { mutableStateOf(false) }
     var showExportPreviewDialog by remember { mutableStateOf(false) }
     var exportedJsonText by remember { mutableStateOf("") }
+
+    // Notification permission launcher for Android 13+
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            onToggleNotifications(true)
+            Toast.makeText(context, "Izin notifikasi diberikan! Pengingat aktif.", Toast.LENGTH_SHORT).show()
+        } else {
+            onToggleNotifications(false)
+            Toast.makeText(context, "Izin notifikasi ditolak.", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     // SAF Create Document launcher for file export
     val exportFileLauncher = rememberLauncherForActivityResult(
@@ -240,6 +259,89 @@ fun ProfileScreen(
                         checked = appData.profile.useDynamicColor,
                         onCheckedChange = onToggleDynamicColor
                     )
+                }
+            }
+        }
+
+        // Notification Settings Card
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(22.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(18.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.primaryContainer),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = if (appData.profile.notificationsEnabled) Icons.Rounded.NotificationsActive else Icons.Rounded.NotificationsNone,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.width(14.dp))
+
+                            Column {
+                                Text(
+                                    text = "Notifikasi Pengingat Puasa",
+                                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = "Pengingat saat puasa mulai & jendela makan dibuka",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+
+                        Switch(
+                            checked = appData.profile.notificationsEnabled,
+                            onCheckedChange = { enabled ->
+                                if (enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                                } else {
+                                    onToggleNotifications(enabled)
+                                }
+                            }
+                        )
+                    }
+
+                    if (appData.profile.notificationsEnabled) {
+                        Spacer(modifier = Modifier.height(14.dp))
+                        OutlinedButton(
+                            onClick = onSendTestNotification,
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(percent = 50)
+                        ) {
+                            Icon(imageVector = Icons.Rounded.NotificationsActive, contentDescription = null, modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Kirim Notifikasi Tes Sekarang")
+                        }
+                    }
                 }
             }
         }
