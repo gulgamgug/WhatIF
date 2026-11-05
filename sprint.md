@@ -11,7 +11,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ---
 
-## 🚀 Rencana Sprint (Total: 17 Sprint)
+## 🚀 Rencana Sprint (Total: 18 Sprint)
 
 ### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
@@ -216,3 +216,15 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - **Unit Testing & Verifikasi**:
   - Penambahan `AboutAndLicenseTest.kt` untuk memverifikasi keutuhan BuildConfig pengembang/host dan kelengkapan katalog metadata lisensi pustaka.
   - Build dan test suite (`./gradlew testDebugUnitTest assembleDebug`) 100% sukses.
+
+### [✅] Sprint 18: Release APK Build & Direct Device Deployment via ADB
+- **Signing Configuration untuk Release Build**:
+  - Menambahkan konfigurasi `signingConfig = signingConfigs.getByName("debug")` pada build type `release` di `app/build.gradle.kts` agar APK release dapat ditandatangani secara otomatis dan siap diinstall langsung ke perangkat Android fisik via ADB.
+- **Penyelesaian Masalah Minifikasi AGP 9**:
+  - Mengatasi potensi runtime crash `IllegalAccessError` pada kelas internal pustaka koleksi Kotlin dengan mematikan konfigurasi eksperimental `optimization.enable = false` pada build release.
+- **Kompilasi & Pembuatan APK Release**:
+  - Menjalankan `./gradlew assembleRelease` dan menghasilkan file `app-release.apk` berukuran ~3.2 MB yang teroptimasi.
+- **Instalasi & Verifikasi Langsung ke Perangkat Fisik**:
+  - Mengidentifikasi perangkat target ADB yang terpasang (`R9CY600S7HW`).
+  - Menghapus instalasi lama yang memiliki tanda tangan debug berbeda dan menginstall APK release baru (`adb install app-release.apk`) dengan status **Success**.
+  - Meluncurkan aplikasi (`am start -n app.raihanlazuardi.whatif/.MainActivity`) dan memverifikasi PID proses (22656) berjalan normal tanpa crash di background/foreground logcat.
