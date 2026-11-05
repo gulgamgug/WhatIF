@@ -32,13 +32,14 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
   - Kalkulator fase puasa & hitung mundur waktu ke fase berikutnya (mendukung rotasi lintas tengah malam).
 - Unit test untuk kalkulasi durasi & transisi fase puasa (`FastingCalculatorTest` passed).
 
-### [ ] Sprint 3: Home Screen & Expressive Fasting Timer
-- Circular Progress Ring dengan visual expressive (animasi gradient, glowing ring).
+### [✅] Sprint 3: Home Screen & Expressive Fasting Timer
+- Circular Progress Ring dengan visual expressive (animasi gradient, indicator bead, dynamic colors).
 - Status fase aktif: **"WAKTU PUASA 🌙"** vs **"WAKTU MAKAN 🥗"**.
 - Countdown waktu real-time: **"X jam Y menit Z detik lagi ke fase berikutnya"**.
 - Kartu informasi jadwal hari ini (jam mulai, jam target selesai, durasi puasa).
 - Quick Action Button: **"Catat Mokel"** (tombol pill aksen tegas) & **"Atur Jadwal"**.
 - Tampilan ringkasan mokel hari ini di Home.
+- Integrasi `WhatIFViewModel` dengan dukungan Material You dynamic theming.
 
 ### [ ] Sprint 4: Fasting Schedule Settings ("Atur Jam Puasa")
 - Dialog / Bottom Sheet pengaturan jam puasa menggunakan Material 3 TimePicker.
