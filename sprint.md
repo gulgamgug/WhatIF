@@ -99,10 +99,17 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - Final build assembly (`./gradlew assembleDebug` sukses menghasilkan `app-debug.apk`).
 - Dukungan penuh Material You Dynamic Theming di Android 12+.
 
-### [✅] Sprint 10: Variable Fonts Integration (Playfair Display & Google Sans Flex)
+### [✅] Sprint 10: Variable Fonts Integration (Google Sans Flex Universal)
 - **Problem Resolution**: Sebelumnya seluruh weight font tampak seragam/identik karena resource font TTF variable tidak di-interpolasi axis `wght`-nya oleh engine teks Compose jika hanya memakai `FontWeight` standar tanpa axis settings.
-- **Title & Headline Font**: Integrasi font variable TrueType **Playfair Display** (`playfair_display.ttf`, wght 400 - 900) dengan `FontVariation.Settings(FontVariation.weight(...))` untuk menghasilkan tipografi judul yang elegan, berkarakter serif editorial, dan berbobot tegas (Medium 500, SemiBold 600, Bold 700, ExtraBold 800, Black 900).
-- **Body & Label Font**: Integrasi font variable TrueType **Google Sans Flex** (`google_sans_flex.ttf`, wght 100 - 1000) dengan `FontVariation.Settings(FontVariation.weight(...))` untuk teks body, tombol, status chip, dan counter (Light 300, Normal 400, Medium 500, SemiBold 600, Bold 750, ExtraBold 850, Black 950).
+- **Universal Typography Migration**: Mengganti seluruh hierarki tipografi aplikasi (Display, Headline, Title, Body, Label) menjadi font variable TrueType **Google Sans Flex** (`google_sans_flex.ttf`, wght 100 - 1000) untuk tampilan modern, konsisten, dan sangat nyaman dibaca.
+- **Fine-grained Weight Interpolation**: Menggunakan `FontVariation.Settings(FontVariation.weight(...))` untuk memastikan interpolasi sumbu bobot benar-benar aktif di engine teks Compose:
+  - `Light`: 300
+  - `Normal`: 400
+  - `Medium`: 500
+  - `SemiBold`: 600
+  - `Bold`: 750
+  - `ExtraBold`: 850
+  - `Black`: 950
 - **Timer Countdown Typography**: Penyesuaian `CircularFastingTimer` dengan `GoogleSansFlexFontFamily` dan weight ExtraBold (850) berukuran 38sp agar pembacaan sisa waktu puasa/makan kontras, tebal, dan sangat jelas terbaca.
-- **Family XML Fallback**: Pembuatan `playfair_display_family.xml` dan `google_sans_flex_family.xml` di `res/font/`.
+- **Cleanup**: Menghapus resource Playfair Display yang tidak lagi digunakan untuk menjaga ukuran APK tetap ramping.
 - Verifikasi kompilasi dan uji coba unit test (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).

@@ -11,46 +11,9 @@ import androidx.compose.ui.unit.sp
 import app.raihanlazuardi.whatif.R
 
 /**
- * Variable Font Family for Titles & Headlines: Playfair Display
- * Supports variable weight axis (wght 400 - 900)
- */
-@OptIn(ExperimentalTextApi::class)
-val PlayfairDisplayFontFamily = FontFamily(
-    Font(
-        resId = R.font.playfair_display,
-        weight = FontWeight.Normal,
-        variationSettings = FontVariation.Settings(FontVariation.weight(400))
-    ),
-    Font(
-        resId = R.font.playfair_display,
-        weight = FontWeight.Medium,
-        variationSettings = FontVariation.Settings(FontVariation.weight(500))
-    ),
-    Font(
-        resId = R.font.playfair_display,
-        weight = FontWeight.SemiBold,
-        variationSettings = FontVariation.Settings(FontVariation.weight(600))
-    ),
-    Font(
-        resId = R.font.playfair_display,
-        weight = FontWeight.Bold,
-        variationSettings = FontVariation.Settings(FontVariation.weight(700))
-    ),
-    Font(
-        resId = R.font.playfair_display,
-        weight = FontWeight.ExtraBold,
-        variationSettings = FontVariation.Settings(FontVariation.weight(800))
-    ),
-    Font(
-        resId = R.font.playfair_display,
-        weight = FontWeight.Black,
-        variationSettings = FontVariation.Settings(FontVariation.weight(900))
-    )
-)
-
-/**
- * Variable Font Family for Body, Labels & Numbers: Google Sans Flex
- * Supports variable weight axis (wght 100 - 1000)
+ * Universal Variable Font Family: Google Sans Flex
+ * Supports full continuous variable weight axis (wght 100 - 1000).
+ * Explicit FontVariation.Settings ensure each weight is dynamically interpolated by the text engine.
  */
 @OptIn(ExperimentalTextApi::class)
 val GoogleSansFlexFontFamily = FontFamily(
@@ -91,66 +54,68 @@ val GoogleSansFlexFontFamily = FontFamily(
     )
 )
 
+val GoogleSans = GoogleSansFlexFontFamily
+
 val Typography = Typography(
-    // Display: Playfair Display Variable
+    // Display: Google Sans Flex Variable (Bold / Expressive)
     displayLarge = TextStyle(
-        fontFamily = PlayfairDisplayFontFamily,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 54.sp,
         lineHeight = 62.sp,
         letterSpacing = (-0.25).sp
     ),
     displayMedium = TextStyle(
-        fontFamily = PlayfairDisplayFontFamily,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 44.sp,
         lineHeight = 52.sp
     ),
     displaySmall = TextStyle(
-        fontFamily = PlayfairDisplayFontFamily,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 34.sp,
         lineHeight = 42.sp
     ),
 
-    // Headlines: Playfair Display Variable
+    // Headlines: Google Sans Flex Variable
     headlineLarge = TextStyle(
-        fontFamily = PlayfairDisplayFontFamily,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 30.sp,
         lineHeight = 38.sp
     ),
     headlineMedium = TextStyle(
-        fontFamily = PlayfairDisplayFontFamily,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 26.sp,
         lineHeight = 34.sp
     ),
     headlineSmall = TextStyle(
-        fontFamily = PlayfairDisplayFontFamily,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 22.sp,
         lineHeight = 30.sp
     ),
 
-    // Titles: Playfair Display Variable
+    // Titles: Google Sans Flex Variable
     titleLarge = TextStyle(
-        fontFamily = PlayfairDisplayFontFamily,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp,
         lineHeight = 28.sp
     ),
     titleMedium = TextStyle(
-        fontFamily = PlayfairDisplayFontFamily,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 17.sp,
+        fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.15.sp
     ),
     titleSmall = TextStyle(
-        fontFamily = PlayfairDisplayFontFamily,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 15.sp,
+        fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp
     ),
