@@ -114,10 +114,14 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - **Cleanup**: Menghapus resource Playfair Display yang tidak lagi digunakan untuk menjaga ukuran APK tetap ramping.
 - Verifikasi kompilasi dan uji coba unit test (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).
 
-### [✅] Sprint 11: Tab Navigation Slide Animation (EaseInOut 500ms)
+### [✅] Sprint 11: Tab Navigation Slide Animation (Snappy EaseOut 200ms / 75ms)
 - **Directional Slide Motion**: Menerapkan animasi transisi geser horizontal (`slideIntoContainer` & `slideOutOfContainer`) saat berpindah tab antar Beranda, Kalender, dan Profil pada `AnimatedContent`.
 - **Direction Awareness**: Arah geser ditentukan secara natural berdasarkan ordinal tab:
   - Navigasi ke kanan (misal Beranda -> Kalender atau Kalender -> Profil): halaman baru bergeser masuk dari kanan ke kiri (`SlideDirection.Left`).
   - Navigasi ke kiri (misal Profil -> Kalender atau kembali ke Beranda via back gesture): halaman baru bergeser masuk dari kiri ke kanan (`SlideDirection.Right`).
-- **Timing & Easing Curve**: Menggunakan durasi persis **500ms** dengan kurva **`EaseInOut`** (`CubicBezierEasing(0.42f, 0.0f, 0.58f, 1.0f)`) untuk pergerakan transisi yang mulus, responsif, dan elegan.
+- **Snappy Timing & EaseOut Easing**: Dioptimalkan dari 500ms menjadi transisi yang jauh lebih cepat, gesit, dan responsif:
+  - Total durasi transisi: **200ms**.
+  - Kurva **`EaseOut`** (tanpa delay akselerasi awal ease-in).
+  - Layar aktif yang keluar (`slideOutOfContainer`) bergeser keluar cepat hanya dalam **75ms** dengan `EaseOut`.
+  - Layar tujuan yang masuk (`slideIntoContainer`) meluncur masuk dan mendarat mulus dalam total durasi **200ms** dengan `EaseOut`.
 - Verifikasi kompilasi dan kelulusan build (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` sukses).

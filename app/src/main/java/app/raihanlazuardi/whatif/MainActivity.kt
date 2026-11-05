@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
@@ -114,14 +114,14 @@ fun WhatIFApp(
                 slideIntoContainer(
                     towards = direction,
                     animationSpec = tween(
-                        durationMillis = 500,
-                        easing = EaseInOut
+                        durationMillis = 200,
+                        easing = EaseOut
                     )
                 ) togetherWith slideOutOfContainer(
                     towards = direction,
                     animationSpec = tween(
-                        durationMillis = 500,
-                        easing = EaseInOut
+                        durationMillis = 75,
+                        easing = EaseOut
                     )
                 )
             },
