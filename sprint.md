@@ -11,7 +11,7 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 
 ---
 
-## 🚀 Rencana Sprint (Total: 12 Sprint)
+## 🚀 Rencana Sprint (Total: 13 Sprint)
 
 ### [✅] Sprint 1: Setup Foundation, Material 3 Expressive & Typography
 - Inisialisasi Git repository & commit initial template.
@@ -134,3 +134,17 @@ Aplikasi tracking intermittent fasting modern berbasis Android Jetpack Compose d
 - **Gesture Swipe Support**: Selain tap navigasi instan via `pagerState.animateScrollToPage(...)`, pengguna kini dapat langsung melakukan gesture geser/swipe jari antar tab secara natural 1:1 seperti WhatsApp.
 - **Predictive Back Integration**: Tetap mendukung `BackHandler` mulus yang menggeser kembali ke Beranda jika tombol back ditekan di tab Kalender/Profil.
 - Verifikasi penuh (`./gradlew testDebugUnitTest` dan `./gradlew assembleDebug` 100% sukses).
+
+### [✅] Sprint 13: Vertical Scrollable Calendar & True-to-Database Fasting History
+- **Vertical Scrollable Calendar Timeline**:
+  - Mengubah tampilan kalender dari navigasi bulan tunggal menjadi daftar bulan yang dapat di-scroll vertikal secara kontinu (`LazyColumn`) hingga 24 bulan ke belakang.
+  - Setiap bulan disajikan dalam Card dengan header nama bulan, badge ringkasan bulanan, dan grid hari.
+  - Tombol aksi melayang *"Kembali ke Bulan Ini"* yang otomatis muncul ketika pengguna melakukan scroll jauh ke masa lalu.
+- **True to Database Fasting Status**:
+  - Memperbaiki logika status kalender agar benar-benar merefleksikan data di database: saat aplikasi baru diinstal, tanggal-tanggal terdahulu **TIDAK lagi otomatis dianggap berhasil IF** (sebelumnya menampilkan dot hijau palsu).
+  - Menambahkan entitas `completedFastDates` pada `WhatIFData` yang disimpan dan diekspor/diimpor secara aman via JSON database.
+  - Tanggal tanpa catatan di database kini berstatus netral (**Tanpa Data / Belum Ada Catatan ⚪**) tanpa dot hijau maupun merah.
+  - Tanggal dengan mokel tetap berstatus **Ada Mokel 🍩** (warna coral dengan badge jumlah mokel).
+  - Pengguna dapat menandai tanggal sebagai **Berhasil Puasa IF 🌟** atau membatalkannya langsung melalui `DayDetailBottomSheet`.
+- Unit test baru `CalendarDataModelTest` untuk memvalidasi inisialisasi state bersih, pengelompokan tanggal mokel, dan mekanisme toggle puasa berhasil.
+- Verifikasi kompilasi dan kelulusan unit test 100% sukses.

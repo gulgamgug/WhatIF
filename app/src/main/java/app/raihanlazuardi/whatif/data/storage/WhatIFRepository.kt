@@ -90,6 +90,18 @@ class WhatIFRepository(private val context: Context) {
         scope.launch { saveToFile(updated) }
     }
 
+    fun toggleFastSuccess(date: LocalDate) {
+        val current = _dataFlow.value.completedFastDates
+        val updated = if (current.contains(date)) {
+            current.filterNot { it == date }
+        } else {
+            current + date
+        }
+        val newData = _dataFlow.value.copy(completedFastDates = updated)
+        _dataFlow.value = newData
+        scope.launch { saveToFile(newData) }
+    }
+
     fun getMokelsForDate(date: LocalDate): List<MokelRecord> {
         return _dataFlow.value.mokelRecords.filter { it.localDate == date }
     }
@@ -153,6 +165,13 @@ class WhatIFRepository(private val context: Context) {
         }
         root.put("mokelRecords", mokelArray)
 
+        // Completed fast dates
+        val fastArray = JSONArray()
+        data.completedFastDates.forEach { date ->
+            fastArray.put(date.toString())
+        }
+        root.put("completedFastDates", fastArray)
+
         return root.toString(2)
     }
 
@@ -199,7 +218,22 @@ class WhatIFRepository(private val context: Context) {
             }
         }
 
-        return WhatIFData(profile = profile, schedule = schedule, mokelRecords = records)
+        val completedDates = mutableListOf<LocalDate>()
+        if (root.has("completedFastDates")) {
+            val array = root.getJSONArray("completedFastDates")
+            for (i in 0 until array.length()) {
+                try {
+                    completedDates.add(LocalDate.parse(array.getString(i)))
+                } catch (_: Exception) {}
+            }
+        }
+
+        return WhatIFData(
+            profile = profile,
+            schedule = schedule,
+            mokelRecords = records,
+            completedFastDates = completedDates
+        )
     }
 
     companion object {

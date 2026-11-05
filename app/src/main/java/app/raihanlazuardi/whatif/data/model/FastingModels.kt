@@ -97,5 +97,6 @@ data class UserProfile(
 data class WhatIFData(
     val profile: UserProfile = UserProfile(),
     val schedule: FastingSchedule = FastingSchedule(),
-    val mokelRecords: List<MokelRecord> = emptyList()
+    val mokelRecords: List<MokelRecord> = emptyList(),
+    val completedFastDates: List<LocalDate> = emptyList()
 )

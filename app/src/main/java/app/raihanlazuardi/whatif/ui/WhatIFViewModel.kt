@@ -83,6 +83,12 @@ class WhatIFViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun toggleFastSuccess(date: LocalDate) {
+        viewModelScope.launch {
+            repository.toggleFastSuccess(date)
+        }
+    }
+
     fun exportDatabaseJson(): String {
         return repository.exportToJson()
     }

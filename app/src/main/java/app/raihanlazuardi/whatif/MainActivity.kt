@@ -146,6 +146,7 @@ fun WhatIFApp(
                 AppDestination.CALENDAR -> {
                     CalendarScreen(
                         mokelRecords = appData.mokelRecords,
+                        completedFastDates = appData.completedFastDates,
                         onDayClick = { date -> selectedCalendarDate = date }
                     )
                 }
@@ -199,6 +200,8 @@ fun WhatIFApp(
         DayDetailBottomSheet(
             date = date,
             mokelRecords = appData.mokelRecords.filter { it.localDate == date },
+            isFastSuccess = appData.completedFastDates.contains(date),
+            onToggleFastSuccess = { targetDate -> viewModel.toggleFastSuccess(targetDate) },
             onDismissRequest = { selectedCalendarDate = null },
             onAddMokelClick = { selectedDate ->
                 targetDateForNewMokel = selectedDate
